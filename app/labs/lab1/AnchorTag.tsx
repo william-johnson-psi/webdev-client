@@ -12,9 +12,9 @@ export default function AnchorTag() {
         GitHub
       </a>
       <br />
-      <a href="https://nookazon.com/">Website I personally visit</a>
+      <a id="wd-your-link" href="https://nookazon.com/">Website I personally visit</a>
       <br />
-      <a href="https://www.linkedin.com/in/wjohnson-cs/" target="_blank" rel="noreferrer">My LinkedIn</a>
+      <a id="wd-your-github" href="https://www.linkedin.com/in/wjohnson-cs/" target="_blank" rel="noreferrer">My LinkedIn</a>
       <br />
       <a
         href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table"

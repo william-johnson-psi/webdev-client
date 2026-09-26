@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Lab4() {
     return (
-        <div id="wd-lab4">
+        <div id="wd-lab4-link">
             <Link href="../labs">Back to Labs</Link>
         </div>
     )
