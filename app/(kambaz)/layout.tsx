@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import "./kambaz.css";
 import KambazNavigation from "./Navigation";
 
 export default function KambazLayout({
@@ -12,7 +13,7 @@ export default function KambazLayout({
             <KambazNavigation />
           </td>
           <td valign="top" width="100%">
-            {children}
+            <div className="wd-main-content-offset">{children}</div>
           </td>
         </tr>
       </tbody>
