@@ -1,6 +1,11 @@
 import Link from "next/link";
 
-export default function AssignmentEditor() {
+export default async function AssignmentEditor({
+  params,
+}: {
+  params: Promise<{ cid: string; aid: string }>;
+}) {
+  const { aid } = await params;
   return (
     <div
       id="wd-assignments-editor"
@@ -17,6 +22,9 @@ export default function AssignmentEditor() {
           className="w-full p-2"
           defaultValue="A1 - ENV + HTML"
         />
+        <p id="wd-assignment-id" className="mt-2 text-sm text-neutral-600">
+          Assignment id: {aid}
+        </p>
       </div>
 
       <div className="mb-4">

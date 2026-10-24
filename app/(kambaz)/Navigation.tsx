@@ -1,10 +1,23 @@
+"use client";
+
 import { AiOutlineDashboard } from "react-icons/ai";
 import { IoCalendarOutline } from "react-icons/io5";
 import { LiaBookSolid, LiaCogSolid } from "react-icons/lia";
 import { FaCircleQuestion, FaRegEnvelope, FaRegCircleUser } from "react-icons/fa6";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const LINKS = [
+  { label: "Dashboard", path: "/dashboard", id: "wd-dashboard-link", icon: AiOutlineDashboard, match: (p: string) => p.startsWith("/dashboard") },
+  { label: "Courses", path: "/dashboard", id: "wd-course-link", icon: LiaBookSolid, match: (p: string) => p.startsWith("/courses") },
+  { label: "Calendar", path: "/calendar", id: "wd-calendar-link", icon: IoCalendarOutline, match: (p: string) => p.startsWith("/calendar") },
+  { label: "Inbox", path: "/inbox", id: "wd-inbox-link", icon: FaRegEnvelope, match: (p: string) => p.startsWith("/inbox") },
+  { label: "Labs", path: "/labs", id: "wd-labs-link", icon: LiaCogSolid, match: (p: string) => p.startsWith("/labs") },
+  { label: "History", path: "/history", id: "wd-history-link", icon: IoCalendarOutline, match: (p: string) => p.startsWith("/history") },
+] as const;
 
 export default function KambazNavigation() {
+  const pathname = usePathname() ?? "";
   return (
     <nav
       id="wd-kambaz-navigation"
@@ -35,51 +48,24 @@ export default function KambazNavigation() {
         <br />
         Account
       </Link>
-      <Link
-        href="/dashboard"
-        id="wd-dashboard-link"
-        className="block bg-white py-3 text-center text-sm text-red-600 no-underline"
-      >
-        <AiOutlineDashboard className="inline-block text-3xl text-red-600" />
-        <br />
-        Dashboard
-      </Link>
-      <Link
-        href="/dashboard"
-        id="wd-course-link"
-        className="block bg-black py-3 text-center text-sm text-white no-underline"
-      >
-        <LiaBookSolid className="inline-block text-3xl text-red-600" />
-        <br />
-        Courses
-      </Link>
-      <Link
-        href="/calendar"
-        id="wd-calendar-link"
-        className="block bg-black py-3 text-center text-sm text-white no-underline"
-      >
-        <IoCalendarOutline className="inline-block text-3xl text-red-600" />
-        <br />
-        Calendar
-      </Link>
-      <Link
-        href="/inbox"
-        id="wd-inbox-link"
-        className="block bg-black py-3 text-center text-sm text-white no-underline"
-      >
-        <FaRegEnvelope className="inline-block text-3xl text-red-600" />
-        <br />
-        Inbox
-      </Link>
-      <Link
-        href="/labs"
-        id="wd-labs-link"
-        className="block bg-black py-3 text-center text-sm text-white no-underline"
-      >
-        <LiaCogSolid className="inline-block text-3xl text-red-600" />
-        <br />
-        Labs
-      </Link>
+      {LINKS.map((link) => {
+        const active = link.match(pathname);
+        const Icon = link.icon;
+        return (
+          <Link
+            key={link.id}
+            href={link.path}
+            id={link.id}
+            className={`block py-3 text-center text-sm no-underline ${
+              active ? "bg-white text-red-600" : "bg-black text-white"
+            }`}
+          >
+            <Icon className="inline-block text-3xl text-red-600" />
+            <br />
+            {link.label}
+          </Link>
+        );
+      })}
       <Link
         href="/labs"
         id="wd-ai-nav-help"

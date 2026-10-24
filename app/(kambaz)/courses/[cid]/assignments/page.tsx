@@ -1,69 +1,66 @@
-import { FaPlus, FaSearch } from "react-icons/fa";
-import AssignmentItem from "./AssignmentItem";
+import Link from "next/link";
+import * as db from "../../../database";
 
-export default async function Assignments({
+export default async function AssignmentEditor({
   params,
 }: {
-  params: Promise<{ cid: string }>;
+  params: Promise<{ cid: string; aid: string }>;
 }) {
-  const { cid } = await params;
+  const { cid, aid } = await params;
+  const assignment = db.assignments.find((a) => a._id === aid);
   return (
-    <div id="wd-assignments">
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-        <div className="relative">
-          <FaSearch className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-neutral-500" />
-          <input
-            placeholder="Search for Assignments"
-            id="wd-search-assignment"
-            className="rounded border py-1.5 pr-3 pl-9 text-sm"
-          />
-        </div>
-        <div className="flex gap-2">
-          <button
-            id="wd-add-assignment-group"
-            type="button"
-            className="inline-flex items-center gap-1 rounded border px-3 py-1.5 text-sm"
-          >
-            <FaPlus /> Group
-          </button>
-          <button
-            id="wd-add-assignment"
-            type="button"
-            className="inline-flex items-center gap-1 rounded bg-red-600 px-3 py-1.5 text-sm font-medium text-white"
-          >
-            <FaPlus /> Assignment
-          </button>
-        </div>
-      </div>
-      <h3
-        id="wd-assignments-title"
-        className="mb-3 flex items-center justify-between rounded bg-neutral-200 p-3 text-lg"
-      >
-        <span>ASSIGNMENTS 40% of Total</span>
-        <button type="button" className="rounded border bg-white px-2 py-0.5 text-sm">
-          <FaPlus />
-        </button>
-      </h3>
-      <ul id="wd-assignment-list" className="m-0 list-none p-0">
-        <AssignmentItem
-          cid={cid}
-          aid="123"
-          title="A1 - ENV + HTML"
-          details="Multiple Modules | Not available until May 6 at 12:00am | Due May 13 at 11:59pm | 100 pts"
-        />
-        <AssignmentItem 
-          cid={cid}
-          aid="234"
-          title="A2 - Dinosaur Tame"
-          details="Multiple Modules | Available until May 4 12:00 AM | Due May 14 at 9:00pm | 10 pts"
-        />
-        <AssignmentItem
-          cid={cid}
-          aid="ai-a"
-          title="A9 - Sample assignment"
-          details="Multiple Modules | Not available until May 6 at 12:00am | Due May 13 at 11:59pm | 100 pts"
-        />
-      </ul>
+    <div id="wd-assignments-editor">
+      <label htmlFor="wd-name">Assignment Name</label>
+      <input id="wd-name" defaultValue={assignment?.title ?? ""} /> <br /><br />
+      <textarea
+        id="wd-description"
+        defaultValue={assignment?.description ?? ""}
+        rows={8}
+        className="w-full"
+      /> <br />
+      <table>
+        <tbody>
+          <tr>
+            <td align="right" valign="top">
+              <label htmlFor="wd-points">Points</label>
+            </td>
+            <td>
+              <input id="wd-points" defaultValue={assignment?.points ?? 100} />
+            </td>
+          </tr>
+          <tr>
+            <td align="right" valign="top">
+              <label htmlFor="wd-due-date">Due</label>
+            </td>
+            <td>
+              <input
+                type="date"
+                id="wd-due-date"
+                defaultValue={assignment?.due}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td align="right" valign="top">
+              <label htmlFor="wd-available-from">Available from</label>
+            </td>
+            <td>
+              <input
+                type="date"
+                id="wd-available-from"
+                defaultValue={assignment?.available}
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+      <Link href={`/courses/${cid}/assignments`} id="wd-cancel">
+        Cancel
+      </Link>{" "}
+      <Link href={`/courses/${cid}/assignments`} id="wd-save">
+        Save
+      </Link>
     </div>
   );
 }
