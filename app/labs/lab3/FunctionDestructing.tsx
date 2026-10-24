@@ -3,7 +3,7 @@ export default function FunctionDestructing() {
   const sum = add(1, 2);
   const subtract = ({ a, b }: { a: number; b: number }) => a - b;
   const difference = subtract({ a: 4, b: 2 });
-  const multiply = (a: number, b: number) => a * b;
+  const multiply = ({ a, b }: { a: number; b: number }) => a * b;
   const product = multiply({a: 10, b: 10});
   const divide = ({ a, b }: { a: number; b: number }) => a / b;
   const quotient = divide({ a: 10, b: 2 });

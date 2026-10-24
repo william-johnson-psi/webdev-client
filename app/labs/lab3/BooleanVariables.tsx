@@ -15,6 +15,7 @@ export default function BooleanVariables() {
   let fruitCheck = fruitA === fruitB
   let numTestString = "123"
   let numTest = 123
+  // @ts-expect-error loose == between string and number is the point of this demo
   let numTestResult = numTestString == numTest
   return (
     <div id="wd-boolean-variables">
