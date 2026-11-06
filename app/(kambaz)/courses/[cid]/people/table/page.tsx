@@ -1,18 +1,21 @@
+"use client";
+
+import { useParams } from "next/navigation";
 import { FaUserCircle } from "react-icons/fa";
 import * as db from "../../../../database";
+import { emptyUser } from "../../../../account/AccountContext";
+import { useEnrollmentsStore } from "../../../../store/enrollmentsStore";
 
-export default async function PeopleTable({
-  params,
-}: {
-  params: Promise<{ cid: string }>;
-}) {
-  const { cid } = await params;
-  const { users, enrollments } = db;
-  const enrolled = users.filter((usr) =>
-    enrollments.some(
-      (enrollment) => enrollment.user === usr._id && enrollment.course === cid,
-    ),
-  );
+export default function PeopleTable() {
+  const { cid } = useParams();
+  const enrollments = useEnrollmentsStore((state) => state.enrollments);
+  const enrolled = enrollments
+    .filter((enrollment) => enrollment.course === cid)
+    .map((enrollment) => ({
+      enrollmentId: enrollment._id,
+      user:
+        db.users.find((usr) => usr._id === enrollment.user) ?? emptyUser,
+    }));
   return (
     <div id="wd-people-table" className="overflow-x-auto">
       <table className="w-full border-collapse text-left text-sm">
@@ -27,8 +30,8 @@ export default async function PeopleTable({
           </tr>
         </thead>
         <tbody>
-          {enrolled.map((user) => (
-            <tr key={user._id} className="odd:bg-neutral-50">
+          {enrolled.map(({ enrollmentId, user }) => (
+            <tr key={enrollmentId} className="odd:bg-neutral-50">
               <td className="wd-full-name p-2 text-nowrap">
                 <FaUserCircle className="me-2 inline align-middle text-3xl text-neutral-500" />
                 <span className="wd-first-name">{user.firstName}</span>{" "}
