@@ -16,7 +16,7 @@ export default function Modules() {
         {modules
           .filter((module) => module.course === cid)
           .map((module) => (
-            <Module key={module._id} title={module.name}>
+            <Module key={module._id} moduleId={module._id} title={module.name}>
               {module.lessons?.map((lesson) => (
                 <Lesson key={lesson._id} title={lesson.name} />
               ))}
